@@ -1,0 +1,53 @@
+﻿@model IEnumerable<Ghor_Sheba.Models.ManagerViewModel.BookingConfirmModel>
+
+@{
+    ViewBag.Title = "Booking_Confirm_List";
+    Layout = "~/Views/Manager/IndexLayout.cshtml";
+}
+
+
+<div id="page-wrapper">
+    <h2>Booking Confirm List</h2>
+
+    <p>
+        @Html.ActionLink("Create New", "Create")
+    </p>
+    <table class="table">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.booking_id)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.service_provider_id)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.status)
+            </th>
+            <th></th>
+        </tr>
+
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.booking_id)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.service_provider_id)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.status)
+                </td>
+                <td>
+                    @* @Html.ActionLink("Edit", "Booking_Confirm_Edit", new { id = item.id })*@
+                    @* @Html.ActionLink("Details", "Service_Provider_Assign", new { id = item.booking_id }) |*@
+                    <a href="/Manager/Booking_Confirm_Details/@item.id" class="btn btn-success">Details</a>
+                    <a href="/Manager/Booking_Confirm_Edit/@item.id" class="btn btn-success">Update</a>
+                    <a href="/Manager/Booking_Confirm_Delete/@item.id" class="btn btn-danger">Delete</a>
+                    @* @Html.ActionLink("Delete", "Booking_Confirm_Delete", new { id = item.id })*@
+                </td>
+            </tr>
+        }
+
+    </table>
+</div>

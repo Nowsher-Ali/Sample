@@ -1,0 +1,43 @@
+﻿@model Ghor_Sheba.Models.Booking_confirms
+
+@{
+    ViewBag.Title = "Booking_Confirm_Details";
+    Layout = "~/Views/Manager/IndexLayout.cshtml";
+}
+
+<div id="page-wrapper">
+    <div>
+        <h2>Booking Confirm Details</h2>
+        <hr />
+        <dl class="dl-horizontal">
+            <dt>
+                @Html.DisplayNameFor(model => model.booking_id)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.booking_id)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.service_provider_id)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.service_provider_id)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.status)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.status)
+            </dd>
+
+        </dl>
+    </div>
+    <p>
+        @Html.ActionLink("Edit", "Edit", new { id = Model.id }) |
+        @Html.ActionLink("Back to List", "Index")
+    </p>
+</div>

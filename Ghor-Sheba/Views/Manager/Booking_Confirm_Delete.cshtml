@@ -1,0 +1,50 @@
+﻿@model Ghor_Sheba.Models.ManagerViewModel.BookingConfirmModel
+
+@{
+    ViewBag.Title = "Booking_Confirm_Delete";
+    Layout = "~/Views/Manager/IndexLayout.cshtml";
+}
+ 
+<div id="page-wrapper">
+    <div>
+        <h2>Booking Confirm Delete</h2>
+        <hr />
+        <dl class="dl-horizontal">
+            <dt>
+                @Html.DisplayNameFor(model => model.booking_id)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.booking_id)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.service_provider_id)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.service_provider_id)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.status)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.status)
+            </dd>
+
+        </dl>
+    </div>
+    <p>
+        @using (Html.BeginForm())
+        {
+            @Html.AntiForgeryToken()
+
+            <div class="form-actions no-color">
+                <input type="submit" value="Delete" class="btn btn-danger" />
+                <a href="/Manager/Booking_Confirm_List" class="btn btn-success">Back to List</a>
+            </div>
+        }
+    </p>
+</div>   

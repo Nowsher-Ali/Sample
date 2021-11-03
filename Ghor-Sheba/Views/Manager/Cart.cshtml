@@ -1,0 +1,42 @@
+﻿@model IEnumerable<Ghor_Sheba.Models.ServiceProviderModel>
+
+@{
+    ViewBag.Title = "Cart";
+    Layout = "~/Views/Manager/IndexLayout.cshtml";
+}
+
+
+<div id="page-wrapper">
+    <h2>Cart Information</h2>
+
+    <p>
+        @Html.ActionLink("Create New", "Create")
+    </p>
+    <table class="table">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.service_provider_id)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.status)
+            </th>
+            <th>Action</th>
+        </tr>
+
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.service_provider_id)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.status)
+                </td>
+                <td>
+                    <a href="/Manager/DeleteToCart/@item.id" class="btn btn-danger">Delete</a>
+                </td>
+            </tr>
+        }
+
+    </table>
+</div>

@@ -1,0 +1,62 @@
+﻿@model IEnumerable<Ghor_Sheba.Models.ManagerViewModel.BookingModel>
+
+@{
+    ViewBag.Title = "Booking_List";
+    Layout = "~/Views/Manager/IndexLayout.cshtml";
+}
+
+
+
+<div id="page-wrapper">
+    <h2>Booking List</h2>
+
+    <p>
+        @Html.ActionLink("Create New", "Booking_Create")
+    </p>
+    <table class="table">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.customer_id)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.cost)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.status)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.payment_status)
+            </th>
+            <th>Action</th>
+        </tr>
+
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.customer_id)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.cost)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.status)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.payment_status)
+                </td>
+                <td>
+                    @*     @Html.ActionLink("Edit", "Booking_Edit", new { id = item.id }) |
+                        @Html.ActionLink("Details", "Details", new { id = item.id }) |
+                        @Html.ActionLink("Delete", "Delete", new { id = item.id }) |
+                         @Html.ActionLink("Assign", "Service_Provider_List", new { id=item.id })*@
+
+                    <a href="/Manager/Booking_Edit/@item.id" class="btn btn-success">Update</a>
+                    <a href="/Manager/Service_Provider_List/@item.id" class="btn btn-success">Assign</a>
+                    <a href="/Manager/Booking_Delete/@item.id" class="btn btn-danger">Delete</a>
+                </td>
+            </tr>
+        }
+
+    </table>
+</div>
