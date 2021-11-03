@@ -40,8 +40,9 @@
     </Key>
     <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
     <Property Name="customer_id" Type="Int32" Nullable="false" />
-    <Property Name="description" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
-    <Property Name="status" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="description" Type="String" MaxLength="120" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="status" Type="String" MaxLength="120" FixedLength="false" Unicode="false" Nullable="false" />
+    <NavigationProperty Name="LoginUser" Relationship="Self.FK_Complaints_LoginUsers" FromRole="Complaints" ToRole="LoginUsers" />
   </EntityType>
   <EntityType Name="Contact_Messages">
     <Key>
@@ -68,6 +69,7 @@
     <Property Name="fullname" Type="String" MaxLength="120" FixedLength="false" Unicode="false" Nullable="false" />
     <NavigationProperty Name="Booking_confirms" Relationship="Self.FK_Booking_confirms_LoginUsers" FromRole="LoginUsers" ToRole="Booking_confirms" />
     <NavigationProperty Name="Bookings" Relationship="Self.FK_Booking_LoginUser" FromRole="LoginUsers" ToRole="Bookings" />
+    <NavigationProperty Name="Complaints" Relationship="Self.FK_Complaints_LoginUsers" FromRole="LoginUsers" ToRole="Complaints" />
     <NavigationProperty Name="Reviews" Relationship="Self.FK_Review_LoginUser" FromRole="LoginUsers" ToRole="Reviews" />
     <NavigationProperty Name="service_provider_status" Relationship="Self.FK_service_provider_status_LoginUser" FromRole="LoginUsers" ToRole="service_provider_status" />
   </EntityType>
@@ -160,6 +162,18 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <Association Name="FK_Complaints_LoginUsers">
+    <End Role="LoginUsers" Type="Self.LoginUser" Multiplicity="1" />
+    <End Role="Complaints" Type="Self.Complaint" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="LoginUsers">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="Complaints">
+        <PropertyRef Name="customer_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
   <Association Name="FK_Review_LoginUser">
     <End Role="LoginUsers" Type="Self.LoginUser" Multiplicity="1" />
     <End Role="Reviews" Type="Self.Review" Multiplicity="*" />
@@ -213,6 +227,10 @@
     <AssociationSet Name="FK_Booking_LoginUser" Association="Self.FK_Booking_LoginUser">
       <End Role="LoginUsers" EntitySet="LoginUsers" />
       <End Role="Bookings" EntitySet="Bookings" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Complaints_LoginUsers" Association="Self.FK_Complaints_LoginUsers">
+      <End Role="LoginUsers" EntitySet="LoginUsers" />
+      <End Role="Complaints" EntitySet="Complaints" />
     </AssociationSet>
     <AssociationSet Name="FK_Review_LoginUser" Association="Self.FK_Review_LoginUser">
       <End Role="LoginUsers" EntitySet="LoginUsers" />

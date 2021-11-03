@@ -28,20 +28,21 @@
 
         @foreach (var item in Model)
         {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.customer_id)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.cost)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.status)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.payment_status)
-                </td>
-            </tr>
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.customer_id)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.cost)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.status)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.payment_status)
+        </td>
+        <td><a href="/Customer/ViewDetails/@item.id" class="btn btn-success">View Details</a></td>
+    </tr>
         }
 
     </table>

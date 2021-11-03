@@ -527,6 +527,8 @@
     <Content Include="Views\Manager\Service_Provider_Assign.cshtml" />
     <Content Include="Views\Manager\Service_Provider_List.cshtml" />
     <Content Include="Views\Manager\IndexLayout.cshtml" />
+    <Content Include="Views\Admin\ViewDetails.cshtml" />
+    <Content Include="Views\Customer\ViewDetails.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

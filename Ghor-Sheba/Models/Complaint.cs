@@ -18,5 +18,7 @@ namespace Ghor_Sheba.Models
         public int customer_id { get; set; }
         public string description { get; set; }
         public string status { get; set; }
+    
+        public virtual LoginUser LoginUser { get; set; }
     }
 }

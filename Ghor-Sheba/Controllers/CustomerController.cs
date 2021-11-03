@@ -312,5 +312,31 @@ namespace Ghor_Sheba.Controllers
 
             return View(b);
         }
+
+        public ActionResult ViewDetails(int id)
+        {
+            var db = new ShebaDbEntities();
+
+            var bd = (from data in db.Booking_details
+                      where data.booking_id == id
+                      select data).ToList();
+            var slist = new List<Service>();
+            
+            foreach(var p in bd)
+            {
+                var x = (from data in db.Services
+                         where data.id == p.service_id
+                         select data).FirstOrDefault();
+                slist.Add(x);
+            }
+
+            var em = User.Identity.Name;
+
+            var user = (from data in db.LoginUsers
+                        where data.email == em
+                        select data).FirstOrDefault();
+            ViewData["username"] = user.username;
+            return View(slist);
+        }
     }
 }

@@ -33,8 +33,8 @@
     </Key>
     <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="customer_id" Type="int" Nullable="false" />
-    <Property Name="description" Type="varchar" MaxLength="50" Nullable="false" />
-    <Property Name="status" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="description" Type="varchar" MaxLength="120" Nullable="false" />
+    <Property Name="status" Type="varchar" MaxLength="120" Nullable="false" />
   </EntityType>
   <EntityType Name="Contact_Messages">
     <Key>
@@ -146,6 +146,18 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <Association Name="FK_Complaints_LoginUsers">
+    <End Role="LoginUsers" Type="Self.LoginUsers" Multiplicity="1" />
+    <End Role="Complaints" Type="Self.Complaints" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="LoginUsers">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="Complaints">
+        <PropertyRef Name="customer_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
   <Association Name="FK_Review_LoginUser">
     <End Role="LoginUsers" Type="Self.LoginUsers" Multiplicity="1" />
     <End Role="Reviews" Type="Self.Reviews" Multiplicity="*" />
@@ -199,6 +211,10 @@
     <AssociationSet Name="FK_Booking_LoginUser" Association="Self.FK_Booking_LoginUser">
       <End Role="LoginUsers" EntitySet="LoginUsers" />
       <End Role="Bookings" EntitySet="Bookings" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Complaints_LoginUsers" Association="Self.FK_Complaints_LoginUsers">
+      <End Role="LoginUsers" EntitySet="LoginUsers" />
+      <End Role="Complaints" EntitySet="Complaints" />
     </AssociationSet>
     <AssociationSet Name="FK_Review_LoginUser" Association="Self.FK_Review_LoginUser">
       <End Role="LoginUsers" EntitySet="LoginUsers" />

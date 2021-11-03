@@ -441,6 +441,16 @@ namespace Ghor_Sheba.Controllers
                 db.Bookings.Remove(x);
                 db.SaveChanges();
             }
+
+            var comp = (from data in db.Complaints
+                        where data.customer_id == user.id
+                        select data).ToList();
+            foreach(var c in comp)
+            {
+                db.Complaints.Remove(c);
+                db.SaveChanges();
+            }
+
             db.LoginUsers.Remove(customer);
             db.SaveChanges();
             return RedirectToAction("ManageCustomer", "Admin");
@@ -1129,6 +1139,35 @@ namespace Ghor_Sheba.Controllers
             db.Contact_Messages.Remove(message);
             db.SaveChanges();
             return RedirectToAction("ViewMessage", "Admin");
+        }
+
+        public ActionResult ViewDetails(int id)
+        {
+            var db = new ShebaDbEntities();
+
+            var det = (from data in db.Booking_details
+                       where data.booking_id == id
+                       select data).ToList();
+
+            var slist = new List<Service>();
+
+            foreach(var p in det)
+            {
+                var x = (from data in db.Services
+                         where data.id == p.service_id
+                         select data).FirstOrDefault();
+                slist.Add(x);
+            }
+
+            var em = User.Identity.Name;
+            em = em.Trim();
+
+            var user = (from data in db.LoginUsers
+                        where data.email.Trim() == em
+                        select data).FirstOrDefault();
+            ViewData["username"] = user.username;
+
+            return View(slist);
         }
     }
 }
