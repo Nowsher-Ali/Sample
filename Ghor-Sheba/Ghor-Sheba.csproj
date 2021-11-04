@@ -529,6 +529,11 @@
     <Content Include="Views\Manager\IndexLayout.cshtml" />
     <Content Include="Views\Admin\ViewDetails.cshtml" />
     <Content Include="Views\Customer\ViewDetails.cshtml" />
+    <Content Include="Views\Manager\ManageBookedService.cshtml" />
+    <Content Include="Views\Manager\ConfirmBookedService.cshtml" />
+    <Content Include="Views\Manager\EditBookedService.cshtml" />
+    <Content Include="Views\Manager\DeleteBookedService.cshtml" />
+    <Content Include="Views\Manager\ViewDetails.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

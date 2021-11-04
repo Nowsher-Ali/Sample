@@ -779,5 +779,177 @@ namespace Ghor_Sheba.Controllers
                     ModelState.Clear();
                     return View();
                 }*/
+        //================================================================================================
+
+        public ActionResult ManageBookedService()
+        {
+            var db = new ShebaDbEntities();
+            var em = User.Identity.Name;
+            em = em.Trim();
+
+            var user = (from data in db.LoginUsers
+                        where data.email.Trim() == em
+                        select data).FirstOrDefault();
+            ViewData["username"] = user.username;
+            var booking = (from data in db.Bookings
+                           where data.status.Trim() == "pending"
+                           select data).ToList();
+            return View(booking);
+        }
+
+        public ActionResult ConfirmBookedService(int id)
+        {
+            var db = new ShebaDbEntities();
+            var em = User.Identity.Name;
+            em = em.Trim();
+            var user = (from data in db.LoginUsers
+                        where data.email.Trim() == em
+                        select data).FirstOrDefault();
+            ViewData["username"] = user.username;
+            var sp = (from data in db.service_provider_status
+                      where data.status.Trim() == "available"
+                      select data).ToList();
+            Session["confirm_booking"] = id;
+            return View(sp);
+        }
+
+        public ActionResult DeleteBookedService(int id)
+        {
+            var db = new ShebaDbEntities();
+            var em = User.Identity.Name;
+            em = em.Trim();
+
+            var user = (from data in db.LoginUsers
+                        where data.email.Trim() == em
+                        select data).FirstOrDefault();
+            ViewData["username"] = user.username;
+            var book = (from data in db.Bookings
+                        where data.id == id
+                        select data).FirstOrDefault();
+
+            var bookdt = (from data in db.Booking_details
+                          where data.booking_id == id
+                          select data).ToList();
+
+            foreach (var p in bookdt)
+            {
+                db.Booking_details.Remove(p);
+                db.SaveChanges();
+            }
+
+            db.Bookings.Remove(book);
+            db.SaveChanges();
+
+            return RedirectToAction("ManageBookedService", "Admin");
+        }
+
+        public ActionResult EditBookedService(int id)
+        {
+            var db = new ShebaDbEntities();
+            var em = User.Identity.Name;
+            em = em.Trim();
+
+            var user = (from data in db.LoginUsers
+                        where data.email.Trim() == em
+                        select data).FirstOrDefault();
+            ViewData["username"] = user.username;
+
+            var book = (from data in db.Bookings
+                        where data.id == id
+                        select data).FirstOrDefault();
+
+            return View(book);
+        }
+
+        [HttpPost]
+        public ActionResult EditBookedService(Booking b)
+        {
+            var db = new ShebaDbEntities();
+            var em = User.Identity.Name;
+            em = em.Trim();
+
+            var user = (from data in db.LoginUsers
+                        where data.email.Trim() == em
+                        select data).FirstOrDefault();
+            ViewData["username"] = user.username;
+
+            var book = (from data in db.Bookings
+                        where data.id == b.id
+                        select data).FirstOrDefault();
+
+            db.Entry(book).CurrentValues.SetValues(b);
+            db.SaveChanges();
+            return View(book);
+        }
+
+        public ActionResult AssignServiceProvider(int id)
+        {
+
+            var db = new ShebaDbEntities();
+            var em = User.Identity.Name;
+            em = em.Trim();
+
+            var user = (from data in db.LoginUsers
+                        where data.email.Trim() == em
+                        select data).FirstOrDefault();
+            ViewData["username"] = user.username;
+
+            string id1 = Session["confirm_booking"].ToString();
+
+            var cs = new Booking_confirms()
+            {
+                booking_id = Int32.Parse(id1),
+                service_provider_id = id,
+                status = "confirm"
+            };
+
+            var book = (from data in db.Bookings
+                        where data.id == cs.booking_id
+                        select data).FirstOrDefault();
+
+            var temp = book;
+            temp.status = "confirm";
+            db.Entry(book).CurrentValues.SetValues(temp);
+            db.SaveChanges();
+            db.Booking_confirms.Add(cs);
+            db.SaveChanges();
+
+            var sp = (from data in db.service_provider_status
+                      where data.service_provider_id == id
+                      select data).First();
+            sp.status = "busy";
+            db.SaveChanges();
+
+            return RedirectToAction("ManageBookedService", "Admin");
+        }
+
+        public ActionResult ViewDetails(int id)
+        {
+            var db = new ShebaDbEntities();
+
+            var det = (from data in db.Booking_details
+                       where data.booking_id == id
+                       select data).ToList();
+
+            var slist = new List<Service>();
+
+            foreach (var p in det)
+            {
+                var x = (from data in db.Services
+                         where data.id == p.service_id
+                         select data).FirstOrDefault();
+                slist.Add(x);
+            }
+
+            var em = User.Identity.Name;
+            em = em.Trim();
+
+            var user = (from data in db.LoginUsers
+                        where data.email.Trim() == em
+                        select data).FirstOrDefault();
+            ViewData["username"] = user.username;
+
+            return View(slist);
+        }
     }
 }
